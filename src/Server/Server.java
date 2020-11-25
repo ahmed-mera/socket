@@ -76,7 +76,7 @@ public class Server {
         return port;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, NullPointerException {
         Server server = new Server();
         System.out.println("Server Listen on Port : " + server.getPort());
         server.startServer(server.getServerSocket());
