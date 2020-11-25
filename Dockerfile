@@ -8,5 +8,3 @@ EXPOSE 2020
 #ENTRYPOINT ["java","/Client.java"]
 
 ENTRYPOINT ["java","/Server.java"]
-
-
