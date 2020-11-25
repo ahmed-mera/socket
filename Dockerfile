@@ -1,7 +1,7 @@
 FROM java:8
-COPY Server/Server.java   /
+COPY src/Server/Server.java   /
 
-#COPY Client/Client.java    /
+#COPY src/Client/Client.java    /
 
 EXPOSE 2020
 
