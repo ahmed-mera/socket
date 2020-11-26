@@ -1,10 +1,10 @@
 FROM java:8
-COPY src/Server/Server.java   /
+COPY out/production/Socket/Server   /Server
 
-#COPY src/Client/Client.java    /
+#COPY out/production/Socket/Client    /Client
 
 EXPOSE 2020
 
-#ENTRYPOINT ["java","/Client.java"]
+#ENTRYPOINT ["java","Client/Client"]
 
-ENTRYPOINT ["java","/Server.java"]
+ENTRYPOINT ["java","Server/Server"]
