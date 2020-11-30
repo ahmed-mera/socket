@@ -1,11 +1,11 @@
 package Server;
 
 import Utils.Utils;
+import org.apache.commons.lang3.math.NumberUtils;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import org.apache.commons.lang3.StringUtils;
 
 
 /**
@@ -61,10 +61,6 @@ public class Server {
     }
 
 
-public String prova(String data){
-        return this.getOperation(data);
-}
-
 
     /**
      * il nostro metodo principale per la gestione del tutto <b>( mandare/ricevere dati al/dal client ) </b>
@@ -87,7 +83,8 @@ public String prova(String data){
 
             System.out.println("Client : " + data);
 
-            if(StringUtils.isNumeric(operation))
+
+            if(NumberUtils.isNumber(operation))
                 Utils.sendData(socket, "result = " + operation);
             else
                 Utils.sendData(socket, data.toUpperCase().concat(" (from Server)"));

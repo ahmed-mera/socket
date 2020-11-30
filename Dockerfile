@@ -1,12 +1,12 @@
 FROM java:8
-COPY out/production/Socket/Server   /prod/Server
+COPY out/production/Socket/Server   /Server
 
-#COPY out/production/Socket/Client    /prod/Client
+#COPY out/production/Socket/Client    /Client
 
-COPY out/production/Socket/Utils   /prod/Utils
+COPY out/production/Socket/Utils   /Utils
 
 EXPOSE 2020
 
-#ENTRYPOINT ["java","prod/Client/Client"]
+#ENTRYPOINT ["java","Client.Client"]
 
-ENTRYPOINT ["java","prod/Server/Server"]
+ENTRYPOINT ["java","Server.Server"]
