@@ -1,8 +1,12 @@
 package Server;
 
+import Utils.Utils;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import org.apache.commons.lang3.StringUtils;
+
 
 /**
  * questa class serve per la gestione del server
@@ -11,6 +15,10 @@ import java.net.Socket;
 public class Server {
 
     private final int port = 2020;
+    private static final String sum = "+";
+    private static final String multiplication = "*";
+    private static final String division = "/";
+    private static final String subtraction = "-";
 
     /**
      * un metodo per creare la socket che a noi serve per la connessione
@@ -22,27 +30,40 @@ public class Server {
         return (new ServerSocket(port)).accept();
     }
 
-    /**
-     * un metodo per leggere la data che il server che ci ha inviato
-     * @param socket {@link Socket}
-     * @return String {@link String}
-     * see {@link Socket}, {@link String}
-     * @throws IOException genera una eccezione del tipo comunicativo
-     */
-    private String readData(Socket socket) throws IOException {
-        return (new BufferedReader( new InputStreamReader( socket.getInputStream() ))).readLine();
-    }
 
     /**
-     * un metodo per mandare la data al server
-     * @param socket {@link Socket}
-     * @param data {@link String}
-     * see {@link Socket}, {@link String}
-     * @throws IOException genera una eccezione del tipo comunicativo
+     * helper function to get operation
+     * @param data type {@link String}
+     * @return the result
      */
-    private void sendData(Socket socket, String data) throws IOException {
-        (new PrintWriter( socket.getOutputStream(), true)).println(data);
+    private String getOperation(String data){
+        data = Utils.parsing(data);
+
+        if (data.contains(sum)){
+            String[] numbers = data.split("\\" + sum);
+            return String.valueOf(Utils.sum(Double.parseDouble(numbers[0]), Double.parseDouble(numbers[1])));
+
+        }else if(data.contains(subtraction)){
+            String[] numbers = data.split(subtraction);
+            return String.valueOf(Utils.subtraction(Double.parseDouble(numbers[0]), Double.parseDouble(numbers[1])));
+
+        }else if(data.contains(multiplication)){
+            String[] numbers = data.split("\\" + multiplication);
+            return String.valueOf(Utils.multiplication(Double.parseDouble(numbers[0]), Double.parseDouble(numbers[1])));
+
+        }else if(data.contains(division)){
+            String[] numbers = data.split(division);
+            return String.valueOf(Utils.division(Double.parseDouble(numbers[0]), Double.parseDouble(numbers[1])));
+
+        }else {
+            return "operatore non é riconociuto";
+        }
     }
+
+
+public String prova(String data){
+        return this.getOperation(data);
+}
 
 
     /**
@@ -54,7 +75,9 @@ public class Server {
         System.out.println("new connection");
 
         while (true){
-            String data = this.readData(socket);
+            String data = Utils.readData(socket);
+
+            String operation = this.getOperation(data);
 
             if (data.equalsIgnoreCase("end") ){
                 socket.close();
@@ -64,7 +87,10 @@ public class Server {
 
             System.out.println("Client : " + data);
 
-            this.sendData(socket, data.toUpperCase().concat(" (from Server)"));
+            if(StringUtils.isNumeric(operation))
+                Utils.sendData(socket, "result = " + operation);
+            else
+                Utils.sendData(socket, data.toUpperCase().concat(" (from Server)"));
         }
     }
 
