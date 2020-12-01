@@ -45,8 +45,26 @@ public class Client {
                     break;
                 case "2":
                     Utils.clear();
-                    System.out.print("Enter your Operation:_ ");
-                    Utils.sendData(socket, (new BufferedReader( new InputStreamReader( System.in ))).readLine());
+                    Utils.subMenuCalc();
+
+                    System.out.print("Choose a number:_ ");
+                    switch ((new BufferedReader( new InputStreamReader( System.in ))).readLine()){
+                        case "5":
+                            continue;
+
+                        case "1":
+                        case "2":
+                        case "3":
+                        case "4":
+                            System.out.print("Enter your Operation:_ ");
+                            Utils.sendData(socket, (new BufferedReader( new InputStreamReader( System.in ))).readLine());
+                            break;
+
+                        default:
+                            System.out.println("Wrong Choose");
+                            startClient(socket);
+                            break;
+                    }
                     break;
                 case "0":
                     Utils.sendData(socket, input);

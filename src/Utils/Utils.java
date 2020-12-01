@@ -116,6 +116,7 @@ public class Utils {
         System.out.println("3- Multiplication");
         System.out.println("4- Division");
         System.out.println("5- Menu principale");
+        System.out.println("0- Exit");
     }
 
 
