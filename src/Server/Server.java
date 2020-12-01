@@ -1,7 +1,6 @@
 package Server;
 
 import Utils.Utils;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -36,28 +35,26 @@ public class Server {
      * @param data type {@link String}
      * @return the result
      */
-    private String getOperation(String data){
+    private Double getOperation(String data) throws ArithmeticException{
         data = Utils.parsing(data);
 
         if (data.contains(sum)){
             String[] numbers = data.split("\\" + sum);
-            return String.valueOf(Utils.sum(Double.parseDouble(numbers[0]), Double.parseDouble(numbers[1])));
+            return (Utils.sum(Double.parseDouble(numbers[0]), Double.parseDouble(numbers[1])));
 
         }else if(data.contains(subtraction)){
             String[] numbers = data.split(subtraction);
-            return String.valueOf(Utils.subtraction(Double.parseDouble(numbers[0]), Double.parseDouble(numbers[1])));
+            return (Utils.subtraction(Double.parseDouble(numbers[0]), Double.parseDouble(numbers[1])));
 
         }else if(data.contains(multiplication)){
             String[] numbers = data.split("\\" + multiplication);
-            return String.valueOf(Utils.multiplication(Double.parseDouble(numbers[0]), Double.parseDouble(numbers[1])));
+            return (Utils.multiplication(Double.parseDouble(numbers[0]), Double.parseDouble(numbers[1])));
 
         }else if(data.contains(division)){
             String[] numbers = data.split(division);
-            return String.valueOf(Utils.division(Double.parseDouble(numbers[0]), Double.parseDouble(numbers[1])));
-
-        }else {
-            return "operatore non é riconociuto";
+            return (Utils.division(Double.parseDouble(numbers[0]), Double.parseDouble(numbers[1])));
         }
+        return null;
     }
 
 
@@ -72,8 +69,7 @@ public class Server {
 
         while (true){
             String data = Utils.readData(socket);
-
-            String operation = this.getOperation(data);
+            Double operation = null;
 
             if (data.equalsIgnoreCase("end") ){
                 socket.close();
@@ -83,8 +79,13 @@ public class Server {
 
             System.out.println("Client : " + data);
 
+            try {
+                operation = this.getOperation(data);
+            }catch (ArithmeticException e){
+                data = e.getMessage();
+            }
 
-            if(NumberUtils.isNumber(operation))
+            if(operation != null)
                 Utils.sendData(socket, "result = " + operation);
             else
                 Utils.sendData(socket, data.toUpperCase().concat(" (from Server)"));
@@ -95,11 +96,9 @@ public class Server {
      * metodo che restuisce la port del server sul quale rimane in ascolto
      * @return int
      */
-    public int getPort() {
-        return port;
-    }
+    public int getPort() { return port; }
 
-    public static void main(String[] args) throws IOException, NullPointerException {
+    public static void main(String... args) throws IOException, NullPointerException {
         Server server = new Server();
         System.out.println("Server Listen on Port : " + server.getPort());
         server.startServer(server.getServerSocket());
