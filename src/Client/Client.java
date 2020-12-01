@@ -31,18 +31,35 @@ public class Client {
      */
     public void startClient(Socket socket) throws IOException {
 
-        while (true){
 
-            System.out.print("Write Your message:_ ");
-            Utils.sendData(socket, (new BufferedReader( new InputStreamReader( System.in ))).readLine() );
+        while (true){
+            Utils.clear();
+            Utils.menu(); // to show the menu
+            System.out.print("Choose a number:_ ");
+            String input = (new BufferedReader( new InputStreamReader( System.in ))).readLine();
+
+            switch (input){
+                case "1":
+                    System.out.print("Enter your String:_ ");
+                    Utils.sendData(socket, (new BufferedReader( new InputStreamReader( System.in ))).readLine());
+                    break;
+                case "2":
+                    Utils.clear();
+                    System.out.print("Enter your Operation:_ ");
+                    Utils.sendData(socket, (new BufferedReader( new InputStreamReader( System.in ))).readLine());
+                    break;
+                case "0":
+                    Utils.sendData(socket, input);
+                    socket.close();
+                    System.out.println( "Connection closed");
+                    return;
+                default:
+                    System.out.println("Wrong Choose");
+                    startClient(socket);
+                    break;
+            }
 
             String data = Utils.readData(socket);
-
-            if (data.equalsIgnoreCase("end") ){
-                socket.close();
-                System.out.println( "Connection closed" );
-                return;
-            }
 
             System.out.println("Server : " + data);
         }

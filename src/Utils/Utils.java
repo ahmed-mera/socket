@@ -96,6 +96,41 @@ public class Utils {
         return value.replaceAll("\\s+", "");
     }
 
+    /**
+     * helper function to show the menu
+     */
+    public static void menu(){
+        System.out.println("1- Convertire una stringa");
+        System.out.println("2- Calcolatrice");
+        System.out.println("0- Exit");
+    }
+
+
+
+    /**
+     * helper function to show the sub menu
+     */
+    public static void subMenuCalc() {
+        System.out.println("1- Sum");
+        System.out.println("2- Subtraction");
+        System.out.println("3- Multiplication");
+        System.out.println("4- Division");
+        System.out.println("5- Menu principale");
+    }
+
+
+    /**
+     * helper function to clear console
+     * @throws IOException must be catch
+     */
+    public static void clear() throws IOException {
+        if ((System.getProperty("os.name").contains("Windows"))) {
+            Runtime.getRuntime().exec("cls");
+        } else {
+            Runtime.getRuntime().exec("clear");
+        }
+    }
+
 
 
 }

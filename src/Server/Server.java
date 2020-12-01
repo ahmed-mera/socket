@@ -71,7 +71,7 @@ public class Server {
             String data = Utils.readData(socket);
             Double operation = null;
 
-            if (data.equalsIgnoreCase("end") ){
+            if (data.equals("0")){
                 socket.close();
                 System.out.println( "Connection closed" );
                 return;
